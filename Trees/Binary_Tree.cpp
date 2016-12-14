@@ -1,6 +1,7 @@
 #include <iostream>
 #include <assert.h>
 #include <queue>
+#include <fstream>
 using namespace std;
 
 template <typename T>
@@ -318,6 +319,27 @@ class BinTree
 			return searchCountHelp(pred, _root->left) + searchCountHelp(pred, _root->right);
 		}
 	}
+	void serializeHelp(Node<T>*& _root, ostream& out)
+	{
+		if (_root == NULL)
+		{
+			out << "nullptr";
+			return;
+		}
+		out << _root->inf << " ";
+		serializeHelp(_root->left, out);
+		serializeHelp(_root->right, out);
+	}
+	void mapHelp(Node<T>*& _root, mapFn<T> f)
+	{
+		if (_root == NULL)
+		{
+			return;
+		}
+		_root->inf = f(_root->inf);
+		mapHelp(_root->left, f);
+		mapHelp(_root->right, f);
+	}
 
 
 public:
@@ -412,6 +434,15 @@ public:
 	void searchCount(bool(*pred)(const T&))
 	{
 		cout << "Search count test: " << searchCountHelp(pred, root) << endl;
+	}
+	void serialize(ostream& out)
+	{
+		serializeHelp(root, out);
+		cout << endl;
+	}
+	void map(mapFn f)
+	{
+		mapHelp(root, f);
 	}
 };
 template<typename T>
