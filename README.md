@@ -1,2 +1,2 @@
 # data-structures
-data structures implementations @fmi
+Data structures implementations @ FMI
